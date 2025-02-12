@@ -1,0 +1,42 @@
+{% extends 'score_app/base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg p-4 border-0 rounded-4">
+                    <h2 class="text-center text-primary fw-bold">Toss Decision</h2>
+                    <hr class="mb-4">
+                    <p class="text-center fs-5"><strong>Match:</strong> {{ match.team1 }} VS {{ match.team2 }}</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.toss_winner.label_tag }}
+                            {{ form.toss_winner }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.toss_decision.label_tag }}
+                            {{ form.toss_decision }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">
+                            Submit Toss Decision
+                        </button>
+                    </form>
+                    {% if match.toss_winner and match.toss_decision %}
+                        <div class="alert alert-info text-center mt-4">
+                            <strong>{{ match.toss_winner }}</strong> won the toss and elected to 
+                            <strong>{{ match.get_toss_decision_display }}</strong>.
+                        </div>
+                    {% endif %}
+
+                    <div class="text-center mt-3">
+                        <a href="{% url 'match_detail' match.id %}" class="btn btn-outline-secondary">
+                            Back to Match Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

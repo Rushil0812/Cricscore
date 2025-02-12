@@ -1,0 +1,56 @@
+{% extends 'score_app/base.html' %}
+{% load static %}
+
+{% block title %}Live Cricket Scores{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'score_app/css/live_score.css' %}">
+{% endblock %}
+
+{% block script %} 
+    <script src="{% static 'score_app/js/live_score.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="text-center">CricScore</h1>
+        <div class="score-board mt-4" id="live-scores">
+            {% if matches %}
+                {% for match in matches %}
+                    <div class="match-card" id="match-{{ match.id }}">
+                        <div class="match-header">
+                            <span class="team-name">{{ match.team1 }}</span>
+                            <span class="team-name">{{ match.team2 }}</span>
+                        </div>
+                        <div class="score-section">
+                            <div class="team-score">
+                                <span id="team1-score-{{ match.id }}">{{ match.score.team1_runs }}/{{ match.score.team1_wickets }}</span>
+                            </div>
+                            <div class="team-score">
+                                <span id="team2-score-{{ match.id }}">{{ match.score.team2_runs }}/{{ match.score.team2_wickets }}</span>
+                            </div>
+                        </div>
+                        <div class="match-details">
+                            <p><strong>Overs:</strong> <span id="overs-{{ match.id }}">{{ match.score.overs }}</span></p>
+                        </div>
+                        <div class="live-commentary">
+                            <p id="commentary-{{ match.id }}">
+                                {% if match.commentary.all %}
+                                    {{ match.commentary.last.text }}
+                                {% else %}
+                                    Waiting for live commentary...
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% if user.is_superuser %}
+                            <a href="{% url 'update_score' match.id %}" class="us btn btn-success mt-2">Update Score</a>
+                            <a href="{% url 'delete_match' match.id %}" class="de btn btn-danger mt-2">Delete Match</a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h5 class="text-center mt-4">No live matches at the moment. Please check back later.</h5>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

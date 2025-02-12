@@ -1,0 +1,87 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 20px;
+    font-family: 'Raleway', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+}
+
+.score-board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.match-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 450px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.match-card:hover {
+    transform: translateY(-5px);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.score-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.team-score {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.team-score span {
+    margin: 5px 0;
+}
+
+.match-details {
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #666;
+}
+
+.us{
+    width: 40%;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.de{
+    width: 40%;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.create {
+    text-align: center;
+    margin-top: 20px;
+}
