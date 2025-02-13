@@ -28,17 +28,13 @@ body {
 }
 
 /* Navbar Hover Effect */
-.navbar-nav .nav-item {
-    position: relative;
-}
-
-.navbar-nav .nav-item .nav-link {
+.navbar-nav .nav-item:not(.logout-button) .nav-link {
     position: relative;
     padding-bottom: 5px;
     transition: color 0.3s ease-in-out;
 }
 
-.navbar-nav .nav-item .nav-link::after {
+.navbar-nav .nav-item:not(.logout-button) .nav-link::after {
     content: "";
     position: absolute;
     left: 0;
@@ -51,11 +47,11 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
-.navbar-nav .nav-item .nav-link:hover {
+.navbar-nav .nav-item:not(.logout-button) .nav-link:hover {
     color: #f8d210; 
 }
 
-.navbar-nav .nav-item .nav-link:hover::after {
+.navbar-nav .nav-item:not(.logout-button) .nav-link:hover::after {
     transform: scaleX(1);
     transform-origin: left;
 }

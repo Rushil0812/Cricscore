@@ -18,19 +18,19 @@
                     <form method="post" id="update-score-form">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="id_team1_runs" class="form-label">Team 1 Runs</label>
+                            <label for="id_team1_runs" class="form-label"><strong>{{match.team1}}</strong> Runs</label>
                             {{ form.team1_runs }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_team2_runs" class="form-label">Team 2 Runs</label>
+                            <label for="id_team2_runs" class="form-label"><strong>{{match.team2}}</strong> Runs</label>
                             {{ form.team2_runs }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_team1_wickets" class="form-label">Team 1 Wickets</label>
+                            <label for="id_team1_wickets" class="form-label"><strong>{{match.team1}}</strong> Wickets</label>
                             {{ form.team1_wickets }}
                         </div>
                         <div class="mb-3">
-                            <label for="id_team2_wickets" class="form-label">Team 2 Wickets</label>
+                            <label for="id_team2_wickets" class="form-label"><strong>{{match.team2}}</strong> Wickets</label>
                             {{ form.team2_wickets }}
                         </div>
                         <div class="mb-3">
