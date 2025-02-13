@@ -148,14 +148,14 @@ def update_score(request, match_id):
             wicket_chance_percent = 5
             wicket_taken = random.random() < (wicket_chance_percent / 100)
             
-            setattr(score, current_runs_field, getattr(score, current_runs_field) + run_scored)
             if wicket_taken:
+                run_scored = random.choice([0, 1, 2])
                 setattr(score, current_wickets_field, getattr(score, current_wickets_field) + 1)
                 commentary_text = f"WICKET! {current_team} lost a wicket."
             else:
                 commentary_text = f"{run_scored} runs scored!" 
             
-            # Increment overs ball-by-ball.
+            setattr(score, current_runs_field, getattr(score, current_runs_field) + run_scored)
             score.overs = min(increment_overs(score.overs), 20)
             score.save()
             Commentary.objects.create(match=match, text=commentary_text)
