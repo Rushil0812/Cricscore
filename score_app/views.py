@@ -5,12 +5,15 @@ from django.contrib.auth import authenticate, login, logout
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.utils.timezone import now
+from django.http import HttpResponseForbidden
 from score_app.models import Match, Score, Commentary
 from score_app.forms import MatchForm, ScoreUpdateForm, TossDecisionForm
 
 @login_required
 def create_match(request):
     """ Admin can create a new match with automatic start time """
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You are not authorized to create matches.")
     if request.method == 'POST':
         form = MatchForm(request.POST)
         if form.is_valid():
@@ -55,6 +58,8 @@ def match_detail(request, match_id):
 
 @login_required
 def update_score(request, match_id):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You are not authorized to update matches.")
     match = get_object_or_404(Match, id=match_id)
     score, created = Score.objects.get_or_create(match=match)
     commentary_text = ""
@@ -96,7 +101,11 @@ def update_score(request, match_id):
     # In the first innings, check if the innings should end.
     if score.current_innings == 1:
         if getattr(score, current_wickets_field) >= 10 or score.overs >= 20:
-            Commentary.objects.create(match=match, text=f"{current_team} innings ended.")
+            if first_innings_team == match.team1:
+                target = score.team1_runs + 1
+            else:
+                target = score.team2_runs + 1
+            Commentary.objects.create(match=match, text=f"{current_team} has given target of {target}!")
             # Transition to second innings; record first innings score as the target.
             score.current_innings = 2
             score.overs = 0  # Reset overs for the second innings.
@@ -149,7 +158,7 @@ def update_score(request, match_id):
             wicket_taken = random.random() < (wicket_chance_percent / 100)
             
             if wicket_taken:
-                run_scored = random.choice([0, 1, 2])
+                run_scored = random.choice([0, 1])
                 setattr(score, current_wickets_field, getattr(score, current_wickets_field) + 1)
                 commentary_text = f"WICKET! {current_team} lost a wicket."
             else:

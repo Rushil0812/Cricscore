@@ -8,12 +8,10 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card shadow p-4">
-                    <h1 class="text-center mb-4">
-                        Update Score for {{ match.team1 }} vs {{ match.team2 }}
-                    </h1>
+                    <h1 class="text-center mb-4">Update Score</h1>
                     <p class="text-center">
-                        <strong>Innings {{ current_innings }}:</strong>
-                        {{ current_team }} is batting.
+                        <strong>{{ match.toss_winner }}</strong> won the toss and chose to 
+                        <strong>{{ match.get_toss_decision_display }}</strong>.
                     </p>
                     <form method="post" id="update-score-form">
                         {% csrf_token %}
