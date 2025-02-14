@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'score_app.middleware.UserTimezoneMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
