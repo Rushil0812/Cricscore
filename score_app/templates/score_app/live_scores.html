@@ -1,5 +1,6 @@
 {% extends 'score_app/base.html' %}
 {% load static %}
+{% load timesince_extras %}
 
 {% block title %}Live Cricket Scores{% endblock %}
 
@@ -36,7 +37,9 @@
                         <div class="live-commentary">
                             <p id="commentary-{{ match.id }}">
                                 {% if match.commentary.all %}
-                                    {{ match.commentary.last.text }}
+                                    {% with latest=match.commentary.last %}
+                                        {{ latest.text }} ({{ latest.timestamp|detailed_timesince }})
+                                    {% endwith %}
                                 {% else %}
                                     Waiting for live commentary...
                                 {% endif %}
