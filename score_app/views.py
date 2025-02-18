@@ -154,7 +154,7 @@ def update_score(request, match_id):
             run_scored = random.choices(run_options, weights=run_weights, k=1)[0]
             
             # Set wicket chance in percent.
-            wicket_chance_percent = 5
+            wicket_chance_percent = 50
             wicket_taken = random.random() < (wicket_chance_percent / 100)
             
             if wicket_taken:
@@ -257,3 +257,15 @@ def previous_matches(request):
     prev_matches = Match.objects.filter(winner__isnull=False).order_by('-start_time')
     context = {'prev_matches': prev_matches}
     return render(request, 'score_app/previous_matches.html', context)
+
+@login_required
+def match_commentary(request, match_id):
+    match = get_object_or_404(Match, id=match_id)
+    
+    if not match.winner:
+        return redirect('live_scores')
+    
+    commentary_list = match.commentary.all().order_by('-timestamp')
+    
+    context = {'match':match, 'commentary_list':commentary_list}
+    return render(request, 'score_app/match_commentary.html', context)

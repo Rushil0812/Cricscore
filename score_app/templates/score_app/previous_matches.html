@@ -33,6 +33,7 @@
                             {% endif %}
                         </div>
                         <a href="{% url 'match_detail' match.id %}" class="us btn btn-success mt-2">Match Details</a>
+                        <a href="{% url 'match_commentary' match.id %}" class="btn btn-dark mt-2">View Commentary</a>
                         {% if user.is_superuser %}
                             <a href="{% url 'delete_match' match.id %}" class="de btn btn-danger mt-2">Delete Match</a>
                         {% endif %}
