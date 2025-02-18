@@ -1,0 +1,35 @@
+{% extends 'score_app/base.html' %}
+{% load static tz %}  
+
+{% block title %}Match Commentary{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'score_app/css/commentary.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center">{{ match.team1 }} vs {{ match.team2 }} Commentary</h2>
+        <p class="text-center"><strong>Winner:</strong> {{ match.winner }}</p>
+        <div class="commentary-list mt-4">
+            {% if commentary_list %}
+                {% for comm in commentary_list %}
+                    <div class="commentary-item mb-2">
+                        <span class="commentary-time fw-bold">
+                            {{ comm.timestamp|localtime|date:"g:i a" }}
+                        </span>
+                        &mdash;
+                        <span class="commentary-text">
+                            {{ comm.text }}
+                        </span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-center">No commentary available for this match.</p>
+            {% endif %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'previous_matches' %}" class="btn btn-secondary">Back to Previous Matches</a>
+        </div>
+    </div>
+{% endblock %}
