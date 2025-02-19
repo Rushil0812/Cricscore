@@ -9,8 +9,7 @@
 
 {% block content %}
     <div class="container mt-4">
-        <h2 class="text-center">{{ match.team1 }} vs {{ match.team2 }} Commentary</h2>
-        <p class="text-center"><strong>Winner:</strong> {{ match.winner }}</p>
+        <h2 class="text-center">Commentary</h2>
         <div class="commentary-list mt-4">
             {% if commentary_list %}
                 {% for comm in commentary_list %}
@@ -29,7 +28,11 @@
             {% endif %}
         </div>
         <div class="text-center mt-4">
-            <a href="{% url 'previous_matches' %}" class="btn btn-secondary">Back to Previous Matches</a>
+            {% if not match.winner %}
+                <a href="{% url 'live_scores' %}" class="btn btn-outline-primary">Back to Live Scores</a>
+            {% else %}
+                <a href="{% url 'previous_matches' %}" class="btn btn-secondary">Back to Previous Matches</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

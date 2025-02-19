@@ -261,11 +261,6 @@ def previous_matches(request):
 @login_required
 def match_commentary(request, match_id):
     match = get_object_or_404(Match, id=match_id)
-    
-    if not match.winner:
-        return redirect('live_scores')
-    
     commentary_list = match.commentary.all().order_by('-timestamp')
-    
     context = {'match':match, 'commentary_list':commentary_list}
     return render(request, 'score_app/match_commentary.html', context)
