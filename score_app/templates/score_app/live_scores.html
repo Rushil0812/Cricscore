@@ -47,9 +47,9 @@
                         </div>
                         {% if user.is_superuser %}
                             <a href="{% url 'update_score' match.id %}" class="us btn btn-success mt-2">Update Score</a>
-                            <a href="{% url 'match_commentary' match.id %}" class="btn btn-dark mt-2">Commentary</a>
                             <a href="{% url 'delete_match' match.id %}" class="de btn btn-danger mt-2">Delete Match</a>
                         {% endif %}
+                        <a href="{% url 'match_commentary' match.id %}" class="btn btn-dark mt-2">Commentary</a>
                     </div>
                 {% endfor %}
             {% else %}

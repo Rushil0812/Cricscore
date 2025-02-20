@@ -1,0 +1,51 @@
+name: Django CI  # Name of the workflow
+
+on: 
+  push:
+    branches:
+      - 19/02-feature-update  
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+        postgres:
+            image: postgres:13
+            env:
+                POSTGRES_DB: Cricscore
+                POSTGRES_USER: postgres
+                POSTGRES_PASSWORD: root
+            ports:
+                - 5432:5432
+            options: >-
+                --health-cmd="pg_isready -U postgres -d Cricscore"
+                --health-interval=10s
+                --health-timeout=5s
+                --health-retries=5
+
+    env:
+        DATABASE_URL: postgres://postgres:root@localhost:5432/Cricscore
+        DJANGO_SETTINGS_MODULE: cricket_score.settings
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Migrations
+        run: |
+          python manage.py migrate
+
+      - name: Run Tests
+        run: |
+          python manage.py test
