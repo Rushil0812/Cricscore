@@ -21,6 +21,9 @@
                         <span class="commentary-text">
                             {{ comm.text }}
                         </span>
+                        <span class="overs-info text-muted">
+                            (Overs: {{ comm.overs|floatformat:1 }})
+                        </span>
                     </div>
                 {% endfor %}
             {% else %}

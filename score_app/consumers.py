@@ -17,14 +17,8 @@ class LiveScoreConsumer(AsyncWebsocketConsumer):
         )
         
     async def send_update(self, event):
-        # Receive the data from the view
         message = event['message']
-        # print(f"Sending message to WebSocket: {message}")
         await self.send(text_data=json.dumps(message))
-        
-        # # Debugging: Log the data being sent
-        # print(f"Broadcasting message: {message}")
-        # print(type(message))
 
         # Send data to WebSocket clients
         await self.send(text_data=json.dumps({
