@@ -154,20 +154,32 @@ def update_score(request, match_id):
             run_scored = random.choices(run_options, weights=run_weights, k=1)[0]
             
             # Set wicket chance in percent.
-            wicket_chance_percent = 50
+            is_wide = random.random() < 0.05
+            is_no_ball = random.random() < 0.05
+            wicket_chance_percent = 5
             wicket_taken = random.random() < (wicket_chance_percent / 100)
             
-            if wicket_taken:
-                run_scored = random.choice([0, 1])
-                setattr(score, current_wickets_field, getattr(score, current_wickets_field) + 1)
-                commentary_text = f"WICKET! {current_team} lost a wicket."
+            if is_wide:
+                setattr(score, current_runs_field, getattr(score, current_runs_field) + 1)
+                commentary_text = f"Wide ball!"
+            elif is_no_ball:
+                setattr(score, current_runs_field, getattr(score, current_runs_field) + 1)
+                commentary_text = f"No ball, Free hit!"
+                free_hit_run = random.choice([0, 1, 2, 3, 4, 6])
+                setattr(score, current_runs_field, getattr(score, current_runs_field) + free_hit_run)
+                commentary_text += f"{free_hit_run} run scored!"
             else:
-                commentary_text = f"{run_scored} runs scored!" 
+                if wicket_taken:
+                    run_scored = random.choice([0, 1])
+                    setattr(score, current_wickets_field, getattr(score, current_wickets_field) + 1)
+                    commentary_text = f"WICKET! {current_team} lost a wicket."
+                else:
+                    commentary_text = f"{run_scored} run scored!" 
             
-            setattr(score, current_runs_field, getattr(score, current_runs_field) + run_scored)
-            score.overs = min(increment_overs(score.overs), 20)
+                setattr(score, current_runs_field, getattr(score, current_runs_field) + run_scored)
+                score.overs = min(increment_overs(score.overs), 20)
             score.save()
-            Commentary.objects.create(match=match, text=commentary_text)
+            Commentary.objects.create(match=match, text=commentary_text, overs=score.overs)
             
             # In second innings, re-check win conditions after the update.
             if score.current_innings == 2:

@@ -39,6 +39,7 @@ class Commentary(models.Model):
     match = models.ForeignKey(Match, on_delete=models.CASCADE, related_name='commentary')
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    overs = models.FloatField(default=0.0)
 
     def __str__(self):
         return f"Commentary for {self.match} - {self.text[:50]}"
