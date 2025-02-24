@@ -155,7 +155,7 @@ def update_score(request, match_id):
             
             # Set wicket chance in percent.
             is_wide = random.random() < 0.05
-            is_no_ball = random.random() < 0.05
+            is_no_ball = random.random() < 0.01
             wicket_chance_percent = 5
             wicket_taken = random.random() < (wicket_chance_percent / 100)
             
